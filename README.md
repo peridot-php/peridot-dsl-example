@@ -38,8 +38,8 @@ Feature("chdir","
 
 ##The DSL file
 
-Our DSL will define a small set of feature based functions. `Context` is the only singleton in the `Peridot` ecosystem,
-and we use it to add suites and tests. You can brows it's documentation [here](http://peridot-php.github.io/docs/class-Peridot.Runner.Context.html).
+Our DSL defines a small set of feature based functions. `Context` is the only singleton in the `Peridot` ecosystem,
+and we use it to add suites and tests. You can browse it's documentation [here](http://peridot-php.github.io/docs/class-Peridot.Runner.Context.html).
 
 ```php
 <?php
@@ -99,13 +99,14 @@ return function($emitter) {
 };
 ```
 
-To complement our DSL, we also extended the `SpecReporter`
+To complement our DSL, we have also extended the `SpecReporter`
 with the `FeatureReporter`.
 
 ```php
 <?php
 namespace Peridot\Example;
 
+use Peridot\Core\Test;
 use Peridot\Reporter\SpecReporter;
 
 /**
@@ -116,46 +117,32 @@ use Peridot\Reporter\SpecReporter;
 class FeatureReporter extends SpecReporter
 {
     /**
-     * @var \Peridot\Core\TestInterface
+     * @param Test $test
      */
-    protected $lastTest;
-
-    /**
-     * {@inheritdoc}
-     */
-    public function init()
+    public function onTestPassed(Test $test)
     {
-        parent::init();
+        $title = $this->handleGivenWhen($test);
 
-        /**
-         * Track the last test that was started
-         */
-        $this->eventEmitter->on('test.start', function($test) {
-            $this->lastTest = $test;
-        });
-
-        /**
-         * Given and When language aren't really tests, so decrement the pass count that is reported
-         */
-        $this->eventEmitter->on('test.passed', function($test) {
-            $scope = $test->getScope();
-            $title = $scope->acceptanceDslTitle;
-            if (preg_match('/Given|When/', $title)) {
-                $this->passing--;
-            }
-        });
+        $this->output->writeln(sprintf(
+            "  %s%s %s",
+            $this->indent(),
+            $this->color('success', $title),
+            $this->color('muted', $test->getDescription())
+        ));
     }
 
     /**
-     * Instead of a symbol, render the feature language
-     *
-     * @param $name
+     * @param Test $test
      * @return string
      */
-    public function symbol($name)
+    protected function handleGivenWhen(Test $test)
     {
-        $scope = $this->lastTest->getScope();
-        return $scope->acceptanceDslTitle;
+        $scope = $test->getScope();
+        $title = $scope->acceptanceDslTitle;
+        if (preg_match('/Given|When/', $title)) {
+            $this->passing--;
+        }
+        return $title;
     }
 }
 ```
