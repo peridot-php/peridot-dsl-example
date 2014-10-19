@@ -1,6 +1,7 @@
 <?php
 namespace Peridot\Example;
 
+use Peridot\Core\Test;
 use Peridot\Reporter\SpecReporter;
 
 /**
@@ -11,45 +12,31 @@ use Peridot\Reporter\SpecReporter;
 class FeatureReporter extends SpecReporter
 {
     /**
-     * @var \Peridot\Core\TestInterface
+     * @param Test $test
      */
-    protected $lastTest;
-
-    /**
-     * {@inheritdoc}
-     */
-    public function init()
+    public function onTestPassed(Test $test)
     {
-        parent::init();
+        $title = $this->handleGivenWhen($test);
 
-        /**
-         * Track the last test that was started
-         */
-        $this->eventEmitter->on('test.start', function($test) {
-            $this->lastTest = $test;
-        });
-
-        /**
-         * Given and When language aren't really tests, so decrement the pass count thats reported
-         */
-        $this->eventEmitter->on('test.passed', function($test) {
-            $scope = $test->getScope();
-            $title = $scope->acceptanceDslTitle;
-            if (preg_match('/Given|When/', $title)) {
-                $this->passing--;
-            }
-        });
+        $this->output->writeln(sprintf(
+            "  %s%s %s",
+            $this->indent(),
+            $this->color('success', $title),
+            $this->color('muted', $test->getDescription())
+        ));
     }
 
     /**
-     * Instead of a symbol, render the feature language
-     *
-     * @param $name
+     * @param Test $test
      * @return string
      */
-    public function symbol($name)
+    protected function handleGivenWhen(Test $test)
     {
-        $scope = $this->lastTest->getScope();
-        return $scope->acceptanceDslTitle;
+        $scope = $test->getScope();
+        $title = $scope->acceptanceDslTitle;
+        if (preg_match('/Given|When/', $title)) {
+            $this->passing--;
+        }
+        return $title;
     }
 }
