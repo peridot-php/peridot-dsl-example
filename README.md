@@ -163,4 +163,4 @@ $ vendor/bin/peridot features/ -r feature
 
 ##Note
 
-This is just an example of creating a custom DSL for Peridot. It probably isn't the most robust solution in its current state, but it should demonstrate what Peridot is capable of
+This is just an example of creating a custom DSL for Peridot. It probably isn't the most robust solution in it's current state, but it is instead meant to demonstrate what Peridot is capable of.
