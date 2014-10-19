@@ -38,6 +38,9 @@ Feature("chdir","
 
 ##The DSL file
 
+Our DSL will define a small set of feature based functions. `Context` is the only singleton in the `Peridot` ecosystem,
+and we use it to add suites and tests. You can brows it's documentation [here](http://peridot-php.github.io/docs/class-Peridot.Runner.Context.html).
+
 ```php
 <?php
 use Peridot\Runner\Context;
@@ -72,20 +75,24 @@ function Then($description, callable $fn)
 }
 ```
 
+Notice the use of `Scope` to store additional information about our tests and our DSL.
+
 ##Configuring Peridot
 
-We can wire up our custom DSL via the Peridot configuration file.
+We wire up our custom DSL via the Peridot configuration file.
 
 ```php
 <?php
 require_once __DIR__ . '/vendor/autoload.php';
 
 return function($emitter) {
+    //set the DSL and change the file extension we search for
     $emitter->on('peridot.configure', function($config) {
         $config->setDsl(__DIR__ . '/src/feature.dsl.php');
         $config->setGrep('*.feature.php');
     });
 
+    //register a more appropriate reporter for our DSL
     $emitter->on('peridot.reporters', function($input, $reporters) {
         $reporters->register('feature', 'A feature reporter', 'Peridot\Example\FeatureReporter');
     });
@@ -128,7 +135,7 @@ class FeatureReporter extends SpecReporter
         });
 
         /**
-         * Given and When language aren't really tests, so decrement the pass count thats reported
+         * Given and When language aren't really tests, so decrement the pass count that is reported
          */
         $this->eventEmitter->on('test.passed', function($test) {
             $scope = $test->getScope();
