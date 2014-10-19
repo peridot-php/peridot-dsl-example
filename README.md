@@ -42,7 +42,7 @@ Our DSL defines a small set of feature based functions. `Context` is the only si
 and we use it to add suites and tests. You can browse it's documentation [here](http://peridot-php.github.io/docs/class-Peridot.Runner.Context.html).
 
 ```php
-<?php // feature.dsl.php
+<?php // src/feature.dsl.php
 use Peridot\Runner\Context;
 
 function Feature($name, $description,  callable $fn)
