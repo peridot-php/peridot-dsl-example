@@ -89,6 +89,8 @@ return function($emitter) {
     //set the DSL and change the file extension we search for
     $emitter->on('peridot.configure', function($config) {
         $config->setDsl(__DIR__ . '/src/feature.dsl.php');
+
+        //this fixes the file pattern, you could just as easily use the -g option from the cli
         $config->setGrep('*.feature.php');
     });
 
