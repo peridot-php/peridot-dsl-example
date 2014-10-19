@@ -160,3 +160,7 @@ $ vendor/bin/peridot features/ -r feature
 ```
 
 ![Peridot acceptance testing](https://raw.githubusercontent.com/peridot-php/peridot-dsl-example/master/output.png "Peridot acceptance testing")
+
+##Note
+
+This is just an example of creating a custom DSL for Peridot. It probably isn't the most robust solution in its current state, but it should demonstrate what Peridot is capable of
