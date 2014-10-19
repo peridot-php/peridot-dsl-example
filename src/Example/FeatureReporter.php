@@ -27,6 +27,9 @@ class FeatureReporter extends SpecReporter
     }
 
     /**
+     * Given and When don't represent true tests themselves, so we decrement
+     * the "passing" count that is reported for each one
+     *
      * @param Test $test
      * @return string
      */

@@ -8,7 +8,7 @@ This repo demonstrates creating a custom DSL for use with the [Peridot](https://
 This DSL will allow us to write acceptance tests like so:
 
 ```php
-<?php
+<?php // features/chdir.feature.php
 Feature("chdir","
     As a PHP user
     I need to be able to change the current working directory",
@@ -42,7 +42,7 @@ Our DSL defines a small set of feature based functions. `Context` is the only si
 and we use it to add suites and tests. You can browse it's documentation [here](http://peridot-php.github.io/docs/class-Peridot.Runner.Context.html).
 
 ```php
-<?php
+<?php // feature.dsl.php
 use Peridot\Runner\Context;
 
 function Feature($name, $description,  callable $fn)
@@ -82,7 +82,7 @@ Notice the use of `Scope` to store additional information about our tests and ou
 We wire up our custom DSL via the Peridot configuration file.
 
 ```php
-<?php
+<?php // peridot.php
 require_once __DIR__ . '/vendor/autoload.php';
 
 return function($emitter) {
@@ -103,7 +103,7 @@ To complement our DSL, we have also extended the `SpecReporter`
 with the `FeatureReporter`.
 
 ```php
-<?php
+<?php // src/Example/FeatureReporter.php
 namespace Peridot\Example;
 
 use Peridot\Core\Test;
@@ -132,6 +132,9 @@ class FeatureReporter extends SpecReporter
     }
 
     /**
+     * Given and When don't represent true tests themselves, so we decrement
+     * the "passing" count that is reported for each one
+     *
      * @param Test $test
      * @return string
      */
