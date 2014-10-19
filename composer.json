@@ -1,6 +1,6 @@
 {
     "name": "brian/peridot-test",
-    "description": "\"Testing out peridot features\"",
+    "description": "An example of creating a custom Peridot DSL",
     "authors": [
         {
             "name": "Brian Scaturro",
