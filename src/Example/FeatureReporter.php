@@ -30,7 +30,7 @@ class FeatureReporter extends SpecReporter
         });
 
         /**
-         * Given and When language aren't really tests, so decrement the pass count that reported
+         * Given and When language aren't really tests, so decrement the pass count thats reported
          */
         $this->eventEmitter->on('test.passed', function($test) {
             $scope = $test->getScope();

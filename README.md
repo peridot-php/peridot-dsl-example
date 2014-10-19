@@ -128,7 +128,7 @@ class FeatureReporter extends SpecReporter
         });
 
         /**
-         * Given and When language aren't really tests, so decrement the pass count that reported
+         * Given and When language aren't really tests, so decrement the pass count thats reported
          */
         $this->eventEmitter->on('test.passed', function($test) {
             $scope = $test->getScope();
@@ -158,3 +158,5 @@ class FeatureReporter extends SpecReporter
 ```
 $ vendor/bin/peridot features/ -r feature
 ```
+
+![Peridot acceptance testing](https://raw.githubusercontent.com/peridot-php/peridot-dsl-example/master/output.png "Peridot acceptance testing")
