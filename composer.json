@@ -8,7 +8,7 @@
         }
     ],
     "require": {
-        "peridot-php/peridot": "dev-master"
+        "peridot-php/peridot": "~1.7"
     },
     "autoload": {
       "psr-4": {

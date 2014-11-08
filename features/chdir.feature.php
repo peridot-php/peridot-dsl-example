@@ -10,13 +10,12 @@ Feature("chdir","
                 chdir(__DIR__);
             });
 
-            $cwd = null;
-            When('I run getcwd()', function() use (&$cwd) {
-                $cwd = getcwd();
+            When('I run getcwd()', function() {
+                $this->cwd = getcwd();
             });
 
-            Then('I should get this directory', function() use (&$cwd) {
-                if ($cwd != __DIR__) {
+            Then('I should get this directory', function() {
+                if ($this->cwd != __DIR__) {
                     throw new \Exception("Should be current directory");
                 }
             });
